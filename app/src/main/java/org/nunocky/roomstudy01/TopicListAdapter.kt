@@ -12,7 +12,7 @@ class TopicListAdapter(
     private var topicList: List<Topic>
 ) : BaseAdapter() {
     interface Listener {
-        fun onFavButtonClicked(id: Int)
+        fun onFavButtonClicked(topic: Topic)
     }
 
     var listener: Listener? = null
@@ -47,7 +47,7 @@ class TopicListAdapter(
         with(binding) {
             topic = topicList[position]
             imageView.setOnClickListener {
-                listener?.onFavButtonClicked(topicList[position].id)
+                listener?.onFavButtonClicked(topicList[position])
             }
         }
 
