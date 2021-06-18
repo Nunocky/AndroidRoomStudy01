@@ -1,9 +1,11 @@
 package org.nunocky.roomstudy01
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,6 +32,14 @@ class NewItemFragment : Fragment() {
 
         binding.etTitle.doOnTextChanged { text, start, before, count ->
             viewModel.ready.value = text?.isNotEmpty()
+        }
+
+        binding.etTitle.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val manager =
+                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                manager.hideSoftInputFromWindow(binding.etTitle.windowToken, 0)
+            }
         }
 
         viewModel.status.observe(requireActivity()) {
