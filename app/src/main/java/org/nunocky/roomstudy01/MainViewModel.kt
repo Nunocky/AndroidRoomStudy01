@@ -28,4 +28,14 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+    fun deleteItem(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val dao = TopicRepository.instance().topicDao
+
+            dao.getById(id)?.let { topic ->
+                dao.delete(topic)
+            }
+        }
+    }
 }
