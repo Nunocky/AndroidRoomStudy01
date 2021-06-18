@@ -18,24 +18,18 @@ class MainViewModel : ViewModel() {
         topicList = dao.getAll()
     }
 
-    fun toggleFav(id: Int) {
+    fun toggleFav(topic: Topic) {
         viewModelScope.launch(Dispatchers.IO) {
             val dao = TopicRepository.instance().topicDao
-            val topic = dao.getById(id)
-            topic?.let {
-                topic.fav = !topic.fav
-                dao.update(topic)
-            }
+            topic.fav = !topic.fav
+            dao.update(topic)
         }
     }
 
-    fun deleteItem(id: Int) {
+    fun deleteTopic(topic: Topic) {
         viewModelScope.launch(Dispatchers.IO) {
             val dao = TopicRepository.instance().topicDao
-
-            dao.getById(id)?.let { topic ->
-                dao.delete(topic)
-            }
+            dao.delete(topic)
         }
     }
 }

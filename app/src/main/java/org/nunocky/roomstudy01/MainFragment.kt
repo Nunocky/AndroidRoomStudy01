@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import org.nunocky.roomstudy01.database.room.Topic
 import org.nunocky.roomstudy01.databinding.MainFragmentBinding
 
 
@@ -32,8 +33,8 @@ class MainFragment : Fragment() {
 
         binding.listView.adapter = adapter
         adapter.listener = object : TopicListAdapter.Listener {
-            override fun onFavButtonClicked(id: Int) {
-                viewModel.toggleFav(id)
+            override fun onFavButtonClicked(topic: Topic) {
+                viewModel.toggleFav(topic)
             }
         }
 
@@ -41,17 +42,24 @@ class MainFragment : Fragment() {
             (binding.listView.adapter as TopicListAdapter).updateItems(newList)
         }
 
+        binding.listView.setOnItemClickListener { parent, view, position, id ->
+            val topic = adapter.getItem(position) as Topic
+            val action = MainFragmentDirections.actionMainFragmentToEditFragment(topic)
+            findNavController().navigate(action)
+        }
+
         binding.listView.setOnItemLongClickListener { _, _, position, _ ->
+            val topic = adapter.getItem(position) as Topic
             AlertDialog.Builder(activity)
                 .setTitle("Delete")
                 //.setMessage("message")
                 .setPositiveButton("Delete") { _, _ ->
-                    viewModel.deleteItem(position)
+                    viewModel.deleteTopic(topic)
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
 
-            false
+            true
         }
 
         binding.fab.setOnClickListener {

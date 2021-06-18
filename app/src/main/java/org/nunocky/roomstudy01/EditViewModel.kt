@@ -7,23 +7,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.nunocky.roomstudy01.database.TopicRepository
 import org.nunocky.roomstudy01.database.room.Topic
-import java.util.*
 
-class NewItemViewModel : ViewModel() {
+class EditViewModel : ViewModel() {
     enum class Status {
-        INIT,
-        DONE
+        Init,
+        Done
     }
 
     val ready = MutableLiveData(false)
-    var status = MutableLiveData(Status.INIT)
     val title = MutableLiveData("")
+    val status = MutableLiveData(Status.Init)
 
-    fun registerNewItem(title: String) {
+    fun updateTopic(topic: Topic) {
         viewModelScope.launch(Dispatchers.IO) {
-            val entry = Topic(0, title, false, Date(), Date())
-            TopicRepository.instance().topicDao.insert(entry)
-            status.postValue(Status.DONE)
+            val dao = TopicRepository.instance().topicDao
+            dao.update(topic)
+            status.postValue(Status.Done)
         }
+
     }
 }
