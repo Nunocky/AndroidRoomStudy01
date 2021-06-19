@@ -15,7 +15,17 @@ import org.nunocky.roomstudy01.databinding.EditFragmentBinding
 
 class EditFragment : Fragment() {
 
-    private val viewModel: EditViewModel by viewModels()
+    private val viewModel: EditViewModel by viewModels {
+        val repository = (requireActivity().application as MyApplication).topicRepository
+
+        // どちらが良いか
+        // val appDatabase = (requireActivity().application as MyApplication).appDatabase
+        // val topicDAO = appDatabase.getTopicDao()
+        // val repository = TopicRepository(topicDAO)
+
+        EditViewModel.Factory(repository)
+    }
+
     private lateinit var binding: EditFragmentBinding
     private val args: EditFragmentArgs by navArgs()
 
@@ -57,7 +67,6 @@ class EditFragment : Fragment() {
             if (it == EditViewModel.Status.Done) {
                 findNavController().popBackStack()
             }
-
         }
     }
 }

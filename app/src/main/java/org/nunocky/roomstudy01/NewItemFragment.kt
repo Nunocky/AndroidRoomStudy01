@@ -12,9 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.nunocky.roomstudy01.databinding.NewItemFragmentBinding
 
-class NewItemFragment : Fragment() {
+class NewItemFragment() : Fragment() {
 
-    private val viewModel: NewItemViewModel by viewModels()
+    private val viewModel: NewItemViewModel by viewModels {
+        val repository = (requireActivity().application as MyApplication).topicRepository
+        NewItemViewModel.Factory(repository)
+    }
+
     private lateinit var binding: NewItemFragmentBinding
 
     override fun onCreateView(

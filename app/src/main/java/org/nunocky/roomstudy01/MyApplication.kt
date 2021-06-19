@@ -1,20 +1,19 @@
 package org.nunocky.roomstudy01
 
 import android.app.Application
-import kotlinx.coroutines.*
+import androidx.room.Room
 import org.nunocky.roomstudy01.database.TopicRepository
+import org.nunocky.roomstudy01.database.room.AppDatabase
 
 class MyApplication : Application() {
-    private val scope = MainScope()
-
-    override fun onCreate() {
-        super.onCreate()
-
-        // データベースを初期化する
-        scope.launch(Dispatchers.IO) {
-            val topicRepository = TopicRepository.instance()
-            topicRepository.init(this@MyApplication)
-        }
+    val appDatabase: AppDatabase by lazy {
+        Room.databaseBuilder(this@MyApplication, AppDatabase::class.java, "appDatabase")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
+    val topicRepository: TopicRepository by lazy {
+        val topicDAO = appDatabase.getTopicDao()
+        TopicRepository(topicDAO)
+    }
 }
