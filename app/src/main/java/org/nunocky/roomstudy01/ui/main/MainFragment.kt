@@ -10,9 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.nunocky.roomstudy01.MyApplication
 import org.nunocky.roomstudy01.R
-import org.nunocky.roomstudy01.view.TopicListAdapter
 import org.nunocky.roomstudy01.database.room.Topic
 import org.nunocky.roomstudy01.databinding.MainFragmentBinding
+import org.nunocky.roomstudy01.view.TopicListAdapter
 
 
 class MainFragment : Fragment() {
@@ -35,18 +35,19 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = TopicListAdapter(emptyList())
-
-        binding.listView.adapter = adapter
-        adapter.listener = object : TopicListAdapter.Listener {
-            override fun onFavButtonClicked(topic: Topic) {
-                viewModel.toggleFav(topic)
+        val adapter = TopicListAdapter(emptyList()).apply {
+            listener = object : TopicListAdapter.Listener {
+                override fun onFavButtonClicked(topic: Topic) {
+                    viewModel.toggleFav(topic)
+                }
             }
         }
 
         viewModel.topicList.observe(requireActivity()) { newList ->
-            (binding.listView.adapter as TopicListAdapter).updateItems(newList)
+            adapter.updateItems(newList)
         }
+
+        binding.listView.adapter = adapter
 
         binding.listView.setOnItemClickListener { _, _, position, _ ->
             val topic = adapter.getItem(position) as Topic
@@ -57,7 +58,7 @@ class MainFragment : Fragment() {
         binding.listView.setOnItemLongClickListener { _, _, position, _ ->
             val topic = adapter.getItem(position) as Topic
             AlertDialog.Builder(activity)
-                .setTitle("Delete")
+                .setTitle("Delete Item")
                 //.setMessage("message")
                 .setPositiveButton("Delete") { _, _ ->
                     viewModel.deleteTopic(topic)
@@ -68,7 +69,7 @@ class MainFragment : Fragment() {
             true
         }
 
-        binding.fab.setOnClickListener {
+        binding.newItemFab.setOnClickListener {
             findNavController().navigate(R.id.newItemFragment)
         }
     }

@@ -3,4 +3,5 @@
     <string name="register">Register</string>
     <string name="title">Title</string>
     <string name="update">update</string>
+    <string name="create_new_item">Create new item</string>
 </resources>
