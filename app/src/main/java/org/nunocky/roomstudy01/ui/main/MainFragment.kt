@@ -2,17 +2,20 @@ package org.nunocky.roomstudy01.ui.main
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.nunocky.roomstudy01.MyApplication
 import org.nunocky.roomstudy01.R
-import org.nunocky.roomstudy01.view.TopicListAdapter
+import org.nunocky.roomstudy01.database.TopicRepository
 import org.nunocky.roomstudy01.database.room.Topic
 import org.nunocky.roomstudy01.databinding.MainFragmentBinding
+import org.nunocky.roomstudy01.view.TopicListAdapter
 
 
 class MainFragment : Fragment() {
@@ -69,7 +72,7 @@ class MainFragment : Fragment() {
                 .setTitle("Delete")
                 //.setMessage("message")
                 .setPositiveButton("Delete") { _, _ ->
-                    viewModel.deleteTopic(topic)
+                    deleteTopic(topic)
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
@@ -77,7 +80,7 @@ class MainFragment : Fragment() {
             true
         }
 
-        binding.fab.setOnClickListener {
+        binding.newItemFab.setOnClickListener {
             findNavController().navigate(R.id.newItemFragment)
         }
     }
