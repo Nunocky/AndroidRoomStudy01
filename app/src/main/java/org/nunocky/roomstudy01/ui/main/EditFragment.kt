@@ -39,7 +39,7 @@ class EditFragment : Fragment() {
 
         viewModel.title.value = args.topic.title
 
-        binding.etTitle.doOnTextChanged { text, start, before, count ->
+        binding.etTitle.doOnTextChanged { text, _, _, _ ->
             viewModel.ready.value = text?.isNotEmpty()
         }
 
