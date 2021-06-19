@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="org.nunocky.roomstudy01.MainFragment"
+        android:name="org.nunocky.roomstudy01.ui.main.MainFragment"
         android:label="MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_newItemFragment"
@@ -17,11 +17,11 @@
     </fragment>
     <fragment
         android:id="@+id/newItemFragment"
-        android:name="org.nunocky.roomstudy01.NewItemFragment"
+        android:name="org.nunocky.roomstudy01.ui.main.NewItemFragment"
         android:label="NewItemFragment" />
     <fragment
         android:id="@+id/editFragment"
-        android:name="org.nunocky.roomstudy01.EditFragment"
+        android:name="org.nunocky.roomstudy01.ui.main.EditFragment"
         android:label="EditFragment">
         <argument
             android:name="topic"

@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".NewItemFragment">
+        tools:context=".ui.main.NewItemFragment">
 
         <Button
             android:id="@+id/btnRegister"
@@ -43,6 +43,6 @@
 
         <variable
             name="viewModel"
-            type="org.nunocky.roomstudy01.NewItemViewModel" />
+            type="org.nunocky.roomstudy01.ui.main.NewItemViewModel" />
     </data>
 </layout>

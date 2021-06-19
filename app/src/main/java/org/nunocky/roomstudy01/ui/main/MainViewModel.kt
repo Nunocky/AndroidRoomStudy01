@@ -1,4 +1,4 @@
-package org.nunocky.roomstudy01
+package org.nunocky.roomstudy01.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

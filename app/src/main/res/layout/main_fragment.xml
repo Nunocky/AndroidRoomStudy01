@@ -5,7 +5,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainFragment">
+        tools:context=".ui.main.MainFragment">
 
         <ListView
             android:id="@+id/listView"
@@ -27,6 +27,6 @@
 
         <variable
             name="viewModel"
-            type="org.nunocky.roomstudy01.MainViewModel" />
+            type="org.nunocky.roomstudy01.ui.main.MainViewModel" />
     </data>
 </layout>
