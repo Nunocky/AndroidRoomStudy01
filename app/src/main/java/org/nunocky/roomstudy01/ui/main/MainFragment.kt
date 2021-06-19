@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +18,7 @@ import org.nunocky.roomstudy01.view.TopicListAdapter
 
 
 class MainFragment : Fragment() {
+
     enum class ORDERBY {
         CREATED_AT,
         UPDATED_AT
@@ -28,6 +28,10 @@ class MainFragment : Fragment() {
         ASC,
         DESC
     }
+
+    private var orderBy = ORDERBY.CREATED_AT
+    private var order = ORDER.ASC
+    private var onlyFavorites = false
 
     private lateinit var topicRepository: TopicRepository
 
@@ -70,7 +74,6 @@ class MainFragment : Fragment() {
             val topic = adapter.getItem(position) as Topic
             AlertDialog.Builder(activity)
                 .setTitle("Delete")
-                //.setMessage("message")
                 .setPositiveButton("Delete") { _, _ ->
                     deleteTopic(topic)
                 }
@@ -85,11 +88,6 @@ class MainFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        reloadTopicList()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu)
@@ -100,56 +98,37 @@ class MainFragment : Fragment() {
             R.id.menu_create_asc -> {
                 orderBy = ORDERBY.CREATED_AT
                 order = ORDER.ASC
-                reloadTopicList()
             }
             R.id.menu_create_desc -> {
                 orderBy = ORDERBY.CREATED_AT
                 order = ORDER.DESC
-                reloadTopicList()
             }
             R.id.menu_update_asc -> {
                 orderBy = ORDERBY.UPDATED_AT
                 order = ORDER.ASC
-                reloadTopicList()
             }
             R.id.menu_update_desc -> {
                 orderBy = ORDERBY.UPDATED_AT
                 order = ORDER.DESC
-                reloadTopicList()
             }
             R.id.menu_show_only_favorites -> {
                 item.isChecked = !item.isChecked
                 onlyFavorites = item.isChecked
-                reloadTopicList()
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
             }
         }
 
-        return super.onOptionsItemSelected(item)
+        // viewModelの filterを変更するとデータベースへの問い合わせと ListViewの更新が行われる
+        viewModel.filter.value = MainViewModel.Filter(
+            orderBy = if (orderBy == ORDERBY.CREATED_AT) 0 else 1,
+            order = if (order == ORDER.ASC) 0 else 1,
+            onlyFavorite = onlyFavorites
+        )
+
+        return true
     }
-
-    private val listObserver = Observer<List<Topic>> { newList ->
-        val adapter = (binding.listView.adapter as TopicListAdapter)
-        adapter.updateItems(newList)
-        adapter.notifyDataSetInvalidated()
-    }
-
-    private fun registerTopicListObserver() {
-        val adapter = (binding.listView.adapter as TopicListAdapter)
-
-        viewModel.topicList.observe(requireActivity(), listObserver)
-        adapter.notifyDataSetInvalidated()
-    }
-
-    private fun unregisterTopicListObserver() {
-        viewModel.topicList.removeObserver(listObserver)
-
-        val adapter = (binding.listView.adapter as TopicListAdapter)
-        adapter.notifyDataSetInvalidated()
-    }
-
-    private var orderBy = ORDERBY.CREATED_AT
-    private var order = ORDER.ASC
-    private var onlyFavorites = false
 
     private fun toggleFav(topic: Topic) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -161,34 +140,6 @@ class MainFragment : Fragment() {
     private fun deleteTopic(topic: Topic) {
         lifecycleScope.launch(Dispatchers.IO) {
             topicRepository.delete(topic)
-        }
-    }
-
-    private fun reloadTopicList() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            launch(Dispatchers.Main) {
-                unregisterTopicListObserver()
-            }.join()
-
-            val isAsc = order == ORDER.ASC
-
-            viewModel.topicList = if (orderBy == ORDERBY.CREATED_AT) {
-                if (onlyFavorites) {
-                    topicRepository.getAllFavoritesWithCreatedAt(isAsc)
-                } else {
-                    topicRepository.getAllWithCreatedAt(isAsc)
-                }
-            } else {
-                if (onlyFavorites) {
-                    topicRepository.getAllFavoritesWithUpdatedAt(isAsc)
-                } else {
-                    topicRepository.getAllWithUpdatedAt(isAsc)
-                }
-            }
-
-            launch(Dispatchers.Main) {
-                registerTopicListObserver()
-            }.join()
         }
     }
 }
