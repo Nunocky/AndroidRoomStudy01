@@ -18,47 +18,42 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:text="@{topic.title}"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintEnd_toStartOf="@+id/tvCreatedAt"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
+            android:id="@+id/tvCreatedAt"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{topic.createdAt.toString()}"
+            android:layout_marginEnd="8dp"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:date="@{topic.createdAt}"
+            app:layout_constraintBottom_toTopOf="@+id/tvUpdatedAt"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{topic.updatedAt.toString()}"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
+            android:id="@+id/tvUpdatedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.6" />
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
+            app:date="@{topic.updatedAt}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/tvCreatedAt"
+            app:layout_constraintTop_toBottomOf="@+id/tvCreatedAt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
