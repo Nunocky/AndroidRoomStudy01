@@ -9,23 +9,17 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.nunocky.roomstudy01.database.room.Topic
 import org.nunocky.roomstudy01.databinding.EditFragmentBinding
 
 class EditFragment : Fragment() {
 
-    private val viewModel: EditViewModel by viewModels {
-        val repository = (requireActivity().application as MyApplication).topicRepository
-
-        // どちらが良いか
-        // val appDatabase = (requireActivity().application as MyApplication).appDatabase
-        // val topicDAO = appDatabase.getTopicDao()
-        // val repository = TopicRepository(topicDAO)
-
-        EditViewModel.Factory(repository)
-    }
-
+    private val viewModel: EditViewModel by viewModels()
     private lateinit var binding: EditFragmentBinding
     private val args: EditFragmentArgs by navArgs()
 
@@ -59,14 +53,21 @@ class EditFragment : Fragment() {
         binding.btnUpdate.setOnClickListener {
             args.topic.let { topic ->
                 topic.title = viewModel.title.value ?: ""
-                viewModel.updateTopic(topic)
+                updateTopic(topic)
             }
         }
 
-        viewModel.status.observe(requireActivity()) {
-            if (it == EditViewModel.Status.Done) {
+    }
+
+    private fun updateTopic(topic: Topic) {
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            val repository = (requireActivity().application as MyApplication).topicRepository
+            repository.update(topic)
+            launch(Dispatchers.Main) {
                 findNavController().popBackStack()
             }
         }
     }
+
 }
