@@ -14,7 +14,10 @@ import org.nunocky.roomstudy01.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
     private lateinit var binding: MainFragmentBinding
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels {
+        val repository = (requireActivity().application as MyApplication).topicRepository
+        MainViewModel.Factory(repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +45,7 @@ class MainFragment : Fragment() {
             (binding.listView.adapter as TopicListAdapter).updateItems(newList)
         }
 
-        binding.listView.setOnItemClickListener { parent, view, position, id ->
+        binding.listView.setOnItemClickListener { _, _, position, _ ->
             val topic = adapter.getItem(position) as Topic
             val action = MainFragmentDirections.actionMainFragmentToEditFragment(topic)
             findNavController().navigate(action)
