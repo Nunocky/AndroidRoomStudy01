@@ -1,4 +1,4 @@
-package org.nunocky.roomstudy01
+package org.nunocky.roomstudy01.view
 
 import android.view.LayoutInflater
 import android.view.View

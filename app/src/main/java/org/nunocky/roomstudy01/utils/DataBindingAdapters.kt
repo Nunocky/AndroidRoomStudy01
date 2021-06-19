@@ -1,4 +1,4 @@
-package org.nunocky.roomstudy01
+package org.nunocky.roomstudy01.utils
 
 import android.widget.ImageView
 import android.widget.ListView

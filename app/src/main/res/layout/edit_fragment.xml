@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".EditFragment">
+        tools:context=".ui.main.EditFragment">
 
         <Button
             android:id="@+id/btnUpdate"
@@ -42,6 +42,6 @@
 
         <variable
             name="viewModel"
-            type="org.nunocky.roomstudy01.EditViewModel" />
+            type="org.nunocky.roomstudy01.ui.main.EditViewModel" />
     </data>
 </layout>

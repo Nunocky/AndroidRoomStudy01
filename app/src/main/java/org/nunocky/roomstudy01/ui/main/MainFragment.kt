@@ -1,4 +1,4 @@
-package org.nunocky.roomstudy01
+package org.nunocky.roomstudy01.ui.main
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import org.nunocky.roomstudy01.MyApplication
+import org.nunocky.roomstudy01.R
+import org.nunocky.roomstudy01.view.TopicListAdapter
 import org.nunocky.roomstudy01.database.room.Topic
 import org.nunocky.roomstudy01.databinding.MainFragmentBinding
 
