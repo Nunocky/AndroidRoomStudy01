@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import org.nunocky.roomstudy01.database.TopicRepository
 import org.nunocky.roomstudy01.database.room.Topic
 
-class MainViewModel(private val topicRepository: TopicRepository) : ViewModel() {
+class TopicListViewModel(private val topicRepository: TopicRepository) : ViewModel() {
 
     data class Filter(
         val orderBy: Int = 0,  // 0:createdAt, other:updatedAt
@@ -16,7 +16,7 @@ class MainViewModel(private val topicRepository: TopicRepository) : ViewModel() 
         ViewModelProvider.NewInstanceFactory() {
         @Suppress("unchecked_cast")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return MainViewModel(topicRepository) as T
+            return TopicListViewModel(topicRepository) as T
         }
     }
 

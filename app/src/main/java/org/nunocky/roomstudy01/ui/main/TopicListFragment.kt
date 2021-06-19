@@ -13,11 +13,11 @@ import org.nunocky.roomstudy01.MyApplication
 import org.nunocky.roomstudy01.R
 import org.nunocky.roomstudy01.database.TopicRepository
 import org.nunocky.roomstudy01.database.room.Topic
-import org.nunocky.roomstudy01.databinding.MainFragmentBinding
+import org.nunocky.roomstudy01.databinding.TopicListFragmentBinding
 import org.nunocky.roomstudy01.view.TopicListAdapter
 
 
-class MainFragment : Fragment() {
+class TopicListFragment : Fragment() {
 
     enum class ORDERBY {
         CREATED_AT,
@@ -35,17 +35,18 @@ class MainFragment : Fragment() {
 
     private lateinit var topicRepository: TopicRepository
 
-    private lateinit var binding: MainFragmentBinding
-    private val viewModel: MainViewModel by viewModels {
+    private lateinit var binding: TopicListFragmentBinding
+    private val viewModel: TopicListViewModel by viewModels {
         topicRepository = (requireActivity().application as MyApplication).topicRepository
-        MainViewModel.Factory(topicRepository)
+        TopicListViewModel.Factory(topicRepository)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
+        binding = TopicListFragmentBinding.inflate(inflater, container, false)
+        //binding = MainFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -66,7 +67,8 @@ class MainFragment : Fragment() {
 
         binding.listView.setOnItemClickListener { _, _, position, _ ->
             val topic = adapter.getItem(position) as Topic
-            val action = MainFragmentDirections.actionMainFragmentToEditFragment(topic)
+            val action = TopicListFragmentDirections.actionTopicListFragmentToEditFragment(topic)
+
             findNavController().navigate(action)
         }
 
@@ -84,7 +86,8 @@ class MainFragment : Fragment() {
         }
 
         binding.newItemFab.setOnClickListener {
-            findNavController().navigate(R.id.newItemFragment)
+            val action = TopicListFragmentDirections.actionTopicListFragmentToNewItemFragment()
+            findNavController().navigate(action)
         }
     }
 
@@ -121,7 +124,7 @@ class MainFragment : Fragment() {
         }
 
         // viewModelの filterを変更するとデータベースへの問い合わせと ListViewの更新が行われる
-        viewModel.filter.value = MainViewModel.Filter(
+        viewModel.filter.value = TopicListViewModel.Filter(
             orderBy = if (orderBy == ORDERBY.CREATED_AT) 0 else 1,
             order = if (order == ORDER.ASC) 0 else 1,
             onlyFavorite = onlyFavorites
