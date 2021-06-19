@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import org.nunocky.roomstudy01.MyApplication
 import org.nunocky.roomstudy01.database.room.Topic
 import org.nunocky.roomstudy01.databinding.EditFragmentBinding
+import java.util.*
 
 class EditFragment : Fragment() {
 
@@ -54,6 +55,7 @@ class EditFragment : Fragment() {
         binding.btnUpdate.setOnClickListener {
             args.topic.let { topic ->
                 topic.title = viewModel.title.value ?: ""
+                topic.updatedAt = Date()
                 updateTopic(topic)
             }
         }
