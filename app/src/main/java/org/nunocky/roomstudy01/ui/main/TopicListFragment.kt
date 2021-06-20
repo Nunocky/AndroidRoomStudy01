@@ -124,7 +124,7 @@ class TopicListFragment : Fragment() {
         }
 
         // viewModelの filterを変更するとデータベースへの問い合わせと ListViewの更新が行われる
-        viewModel.filter.value = TopicListViewModel.Filter(
+        viewModel.filter.value = TopicRepository.Filter(
             orderBy = if (orderBy == ORDERBY.CREATED_AT) 0 else 1,
             order = if (order == ORDER.ASC) 0 else 1,
             onlyFavorite = onlyFavorites

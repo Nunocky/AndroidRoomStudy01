@@ -6,12 +6,6 @@ import org.nunocky.roomstudy01.database.room.Topic
 
 class TopicListViewModel(private val topicRepository: TopicRepository) : ViewModel() {
 
-    data class Filter(
-        val orderBy: Int = 0,  // 0:createdAt, other:updatedAt
-        val order: Int = 0, // 0:ASC, other:DESC
-        val onlyFavorite: Boolean = false
-    )
-
     class Factory(private val topicRepository: TopicRepository) :
         ViewModelProvider.NewInstanceFactory() {
         @Suppress("unchecked_cast")
@@ -20,17 +14,15 @@ class TopicListViewModel(private val topicRepository: TopicRepository) : ViewMod
         }
     }
 
-    val filter = MutableLiveData(Filter())
+    // ソート、検索条件
+    val filter = MutableLiveData(TopicRepository.Filter())
 
+    // ListViewに表示するデータ
     val topicList: LiveData<List<Topic>> = Transformations.switchMap(filter) { filter ->
-        val createdAt = filter.orderBy == 0
-        val asc = filter.order == 0
-        val onlyFavorite = filter.onlyFavorite
-
-        if (onlyFavorite)
-            topicRepository.findAllFavorites(createdAt, asc)
-        else
-            topicRepository.findAll(createdAt, asc)
+        topicRepository.findAll(
+            createdAt = filter.orderBy == 0,
+            asc = filter.order == 0,
+            onlyFavorites = filter.onlyFavorite
+        )
     }
-
 }
