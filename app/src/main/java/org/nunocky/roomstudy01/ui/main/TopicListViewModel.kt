@@ -23,16 +23,14 @@ class TopicListViewModel(private val topicRepository: TopicRepository) : ViewMod
     val filter = MutableLiveData(Filter())
 
     val topicList: LiveData<List<Topic>> = Transformations.switchMap(filter) { filter ->
-        val isAsc = filter.order == 0
-        if (filter.orderBy == 0 && filter.onlyFavorite) {
-            topicRepository.getAllFavoritesWithCreatedAt(isAsc)
-        } else if (filter.orderBy == 0 && filter.onlyFavorite) {
-            topicRepository.getAllWithCreatedAt(isAsc)
-        } else if (filter.orderBy == 1 && filter.onlyFavorite) {
-            topicRepository.getAllFavoritesWithUpdatedAt(isAsc)
-        } else {
-            topicRepository.getAllWithUpdatedAt(isAsc)
-        }
+        val createdAt = filter.orderBy == 0
+        val asc = filter.order == 0
+        val onlyFavorite = filter.onlyFavorite
+
+        if (onlyFavorite)
+            topicRepository.findAllFavorites(createdAt, asc)
+        else
+            topicRepository.findAll(createdAt, asc)
     }
 
 }

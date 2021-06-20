@@ -11,15 +11,14 @@ class TopicRepository(private val topicDao: TopicDAO) {
     fun getAll(): LiveData<List<Topic>> = topicDao.getAll()
     fun getById(id: Int): Topic? = topicDao.getById(id)
 
-    fun getAllWithCreatedAt(isAsc: Boolean): LiveData<List<Topic>> =
-        topicDao.getAllWithCreatedAt(isAsc)
+    fun findAll(
+        forCreatedAt: Boolean,
+        asc: Boolean
+    ): LiveData<List<Topic>> = topicDao.findAll(forCreatedAt, asc)
 
-    fun getAllFavoritesWithCreatedAt(isAsc: Boolean): LiveData<List<Topic>> =
-        topicDao.getAllFavoritesWithCreatedAt(isAsc)
+    fun findAllFavorites(
+        forCreatedAt: Boolean,
+        asc: Boolean
+    ): LiveData<List<Topic>> = topicDao.findAllFavorites(forCreatedAt, asc)
 
-    fun getAllWithUpdatedAt(isAsc: Boolean): LiveData<List<Topic>> =
-        topicDao.getAllWithUpdatedAt(isAsc)
-
-    fun getAllFavoritesWithUpdatedAt(isAsc: Boolean): LiveData<List<Topic>> =
-        topicDao.getAllFavoritesWithUpdatedAt(isAsc)
 }
