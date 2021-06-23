@@ -1,7 +1,6 @@
 package org.nunocky.sample2
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,13 +21,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun update() {
         when (count % 3) {
             1 -> {
-                filter.value = Repository.Filter(true, false, false)
-            }
-            2 -> {
                 filter.value = Repository.Filter(false, true, false)
             }
-            else -> {
+            2 -> {
                 filter.value = Repository.Filter(false, false, true)
+            }
+            else -> {
+                filter.value = Repository.Filter(true, false, false)
             }
         }
         count += 1

@@ -12,15 +12,16 @@ class Repository(private val database: AppDatabase) {
     )
 
     fun findTopicsWithFilter(filter: Filter): LiveData<List<Topic>> {
-        val tagIds = ArrayList<Int>()
-        if (filter.tag1) {
-            tagIds.add(1)
-        }
-        if (filter.tag2) {
-            tagIds.add(2)
-        }
-        if (filter.tag3) {
-            tagIds.add(3)
+        val tagIds = ArrayList<Int>().apply {
+            if (filter.tag1) {
+                add(1)
+            }
+            if (filter.tag2) {
+                add(2)
+            }
+            if (filter.tag3) {
+                add(3)
+            }
         }
 
         val dao = database.getTopicDAO()

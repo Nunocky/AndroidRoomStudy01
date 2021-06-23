@@ -9,7 +9,7 @@ interface TopicDAO {
     fun count(): Int
 
     @Insert
-    fun insert(topic: Topic)
+    fun insert(topic: Topic): Long
 
     @Delete
     fun delete(topic: Topic)
@@ -22,7 +22,7 @@ interface TopicDAO {
 
     @Query(
         "select * from topic " +
-                "where id in (select topic_id from tagrelation where tag_id in (:tag_ids))"
+                "where id in (select topic_id from topictagrelation where tag_id in (:tag_ids))"
     )
     fun findByTagIds(tag_ids: IntArray): LiveData<List<Topic>>
 

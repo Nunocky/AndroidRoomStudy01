@@ -6,16 +6,16 @@ import androidx.room.Insert
 import androidx.room.Update
 
 @Dao
-interface TagRelationDAO {
+interface TopicTagRelationDAO {
     // CRUD
     @Insert
-    fun insert(relation: TagRelation)
+    fun insert(relation: TopicTagRelation): Long
 
     @Delete
-    fun delete(relation: TagRelation)
+    fun delete(relation: TopicTagRelation)
 
     @Update
-    fun update(relation: TagRelation)
+    fun update(relation: TopicTagRelation)
 
 //    @Query("select * from tagrelation where tag_id=:tag")
 //    fun findByTag(tag: Int)

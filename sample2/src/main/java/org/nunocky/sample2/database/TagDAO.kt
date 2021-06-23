@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface TagDAO {
     @Insert
-    fun insert(tag: Tag)
+    fun insert(tag: Tag): Long
 
     @Delete
     fun delete(tag: Tag)

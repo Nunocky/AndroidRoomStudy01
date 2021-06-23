@@ -1,7 +1,6 @@
 package org.nunocky.sample2
 
 import android.app.Application
-import android.util.Log
 import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,27 +33,42 @@ class MyApplication : Application() {
     }
 
     private fun initDatabase() {
-        appDatabase.getTopicDAO().let { dao ->
-            for (n in 1..3) {
-                val topic = Topic(n, "Title $n")
-                dao.insert(topic)
-                Log.d("MyApplication", "new Item ${topic.id}")
-            }
-        }
+        val tagRelation = appDatabase.getTopicTagRelationDAO()
 
+        // 絞り込みタグの IDは固定
         appDatabase.getTagDAO().let { dao ->
-            dao.insert(Tag(1, "Tag 1"))
-            dao.insert(Tag(2, "Tag 2"))
-            dao.insert(Tag(3, "Tag 3"))
+            dao.insert(Tag(id = 1, title = "Tag 1"))
+            dao.insert(Tag(id = 2, title = "Tag 2"))
+            dao.insert(Tag(id = 3, title = "Tag 3"))
         }
 
-        appDatabase.getTagRelationDAO().let { dao ->
-            dao.insert(TagRelation(0, 1, 1))
-            dao.insert(TagRelation(0, 1, 2))
-            dao.insert(TagRelation(0, 2, 2))
-            dao.insert(TagRelation(0, 2, 3))
-            dao.insert(TagRelation(0, 3, 3))
-            dao.insert(TagRelation(0, 3, 1))
+        appDatabase.getTopicDAO().let { dao ->
+            var topic: Topic = Topic()
+            var rowId: Long = 0
+
+            // Title1 は tag1, tag2と関連付け
+            topic = Topic(title = "Title 1")
+            rowId = dao.insert(topic)
+            tagRelation.apply {
+                insert(TopicTagRelation(topic_id = rowId, tag_id = 1))
+                insert(TopicTagRelation(topic_id = rowId, tag_id = 2))
+            }
+
+            // Title2 は tag2, tag3と関連付け
+            topic = Topic(title = "Title 2")
+            rowId = dao.insert(topic)
+            tagRelation.apply {
+                insert(TopicTagRelation(topic_id = rowId, tag_id = 2))
+                insert(TopicTagRelation(topic_id = rowId, tag_id = 3))
+            }
+
+            // Title3 は tag3, tag1と関連付け
+            topic = Topic(title = "Title 3")
+            rowId = dao.insert(topic)
+            tagRelation.apply {
+                insert(TopicTagRelation(topic_id = rowId, tag_id = 3))
+                insert(TopicTagRelation(topic_id = rowId, tag_id = 1))
+            }
         }
     }
 
