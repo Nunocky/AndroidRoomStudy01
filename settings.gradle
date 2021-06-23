@@ -1,2 +1,3 @@
 rootProject.name = "AndroidRoomStudy01"
 include ':app'
+include ':sample2'
