@@ -1,10 +1,12 @@
-package org.nunocky.sample2
+package org.nunocky.sample2.main.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import org.nunocky.sample2.MyApplication
+import org.nunocky.sample2.TopicRepository
 import org.nunocky.sample2.database.Topic
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {

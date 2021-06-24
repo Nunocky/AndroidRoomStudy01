@@ -1,9 +1,12 @@
-package org.nunocky.sample2
+package org.nunocky.sample2.main.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import org.nunocky.sample2.R
+import org.nunocky.sample2.adapters.TopicListAdapter
+import org.nunocky.sample2.TopicRepository
 import org.nunocky.sample2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

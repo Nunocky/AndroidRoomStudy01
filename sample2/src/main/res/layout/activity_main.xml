@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".main.ui.MainActivity">
 
         <CheckBox
             android:id="@+id/cbTag1"
@@ -77,6 +77,6 @@
 
         <variable
             name="viewModel"
-            type="org.nunocky.sample2.MainViewModel" />
+            type="org.nunocky.sample2.main.ui.MainViewModel" />
     </data>
 </layout>
