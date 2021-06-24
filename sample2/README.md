@@ -18,7 +18,7 @@ Topicとそれぞれの Tagは以下のような関連を持つ。
 
 ## 操作
 
-TODO 画面の画像を貼る
+![Screenshot_1624503444](https://user-images.githubusercontent.com/750091/123195956-fcddef80-d4e3-11eb-88df-bd4d674a07da.png)
 
 上部のリストビューは表示だけで操作はできない。
 
