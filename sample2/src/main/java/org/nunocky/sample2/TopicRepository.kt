@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import org.nunocky.sample2.database.AppDatabase
 import org.nunocky.sample2.database.Topic
 
-class Repository(private val database: AppDatabase) {
+class TopicRepository(private val database: AppDatabase) {
     data class Filter(
         var tag1: Boolean,
         var tag2: Boolean,
         var tag3: Boolean,
+        var favs: Boolean = false,
     )
 
     fun findTopicsWithFilter(filter: Filter): LiveData<List<Topic>> {
@@ -25,6 +26,6 @@ class Repository(private val database: AppDatabase) {
         }
 
         val dao = database.getTopicDAO()
-        return dao.findByTagIds(tagIds.toIntArray())
+        return dao.findByTagIds(tag_ids = tagIds.toIntArray(), onlyFavorites = filter.favs)
     }
 }

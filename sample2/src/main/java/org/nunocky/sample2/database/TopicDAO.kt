@@ -22,8 +22,8 @@ interface TopicDAO {
 
     @Query(
         "select * from topic " +
-                "where id in (select topic_id from topictagrelation where tag_id in (:tag_ids))"
+                "where case when :onlyFavorites=1 then fav=1 else fav in (0, 1) end " +
+                "and id in (select topic_id from topictagrelation where tag_id in (:tag_ids)) "
     )
-    fun findByTagIds(tag_ids: IntArray): LiveData<List<Topic>>
-
+    fun findByTagIds(tag_ids: IntArray, onlyFavorites: Boolean = false): LiveData<List<Topic>>
 }

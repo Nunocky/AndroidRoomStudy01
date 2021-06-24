@@ -1,17 +1,12 @@
 package org.nunocky.sample2
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import org.nunocky.sample2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    companion object {
-        private const val TAG = "MainActivity"
-    }
-
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
 
@@ -21,14 +16,46 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.button.setOnClickListener {
-            viewModel.update()
+        binding.listView.adapter = TopicListAdapter(emptyList())
+
+        binding.cbTag1.setOnCheckedChangeListener { _, isChecked ->
+            val filter = viewModel.filter.value?.apply {
+                tag1 = isChecked
+            }
+
+            viewModel.filter.value = filter
         }
 
-        viewModel.topics.observe(this) { topics ->
-            topics.forEach { topic ->
-                Log.d(TAG, "${topic.title}")
+        binding.cbTag2.setOnCheckedChangeListener { _, isChecked ->
+            val filter = viewModel.filter.value?.apply {
+                tag2 = isChecked
             }
+
+            viewModel.filter.value = filter
         }
+
+        binding.cbTag3.setOnCheckedChangeListener { _, isChecked ->
+            val filter = viewModel.filter.value?.apply {
+                tag3 = isChecked
+            }
+
+            viewModel.filter.value = filter
+        }
+
+        binding.cbFav.setOnCheckedChangeListener { _, isChecked ->
+            val filter = viewModel.filter.value?.apply {
+                favs = isChecked
+            }
+
+            viewModel.filter.value = filter
+        }
+
+        // 絞り込み条件の初期値
+        viewModel.filter.value = TopicRepository.Filter(
+            tag1 = true,
+            tag2 = true,
+            tag3 = true,
+            favs = false
+        )
     }
 }
