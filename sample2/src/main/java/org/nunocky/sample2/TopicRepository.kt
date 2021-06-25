@@ -9,7 +9,7 @@ class TopicRepository(private val database: AppDatabase) {
         var tag1: Boolean,
         var tag2: Boolean,
         var tag3: Boolean,
-        var favs: Boolean = false,
+        var fav: Boolean = false,
     )
 
     fun findTopicsWithFilter(filter: Filter): LiveData<List<Topic>> {
@@ -26,6 +26,6 @@ class TopicRepository(private val database: AppDatabase) {
         }
 
         val dao = database.getTopicDAO()
-        return dao.findByTagIds(tag_ids = tagIds.toIntArray(), onlyFavorites = filter.favs)
+        return dao.findByTagIds(tag_ids = tagIds.toIntArray(), onlyFavorites = filter.fav)
     }
 }

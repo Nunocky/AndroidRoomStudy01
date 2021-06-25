@@ -1,9 +1,12 @@
-package org.nunocky.sample2
+package org.nunocky.sample2.main.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import org.nunocky.sample2.R
+import org.nunocky.sample2.TopicRepository
+import org.nunocky.sample2.adapters.TopicListAdapter
 import org.nunocky.sample2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.cbFav.setOnCheckedChangeListener { _, isChecked ->
             val filter = viewModel.filter.value?.apply {
-                favs = isChecked
+                fav = isChecked
             }
 
             viewModel.filter.value = filter
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             tag1 = true,
             tag2 = true,
             tag3 = true,
-            favs = false
+            fav = false
         )
     }
 }

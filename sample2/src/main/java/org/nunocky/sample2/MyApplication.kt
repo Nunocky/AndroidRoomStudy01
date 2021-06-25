@@ -71,7 +71,7 @@ class MyApplication : Application() {
             }
 
             // Title4 は tag1, tag2, tag3と関連付け, fav設定
-            topic = Topic(title = "Title 4 (#Tag1 #Tag2 #Tag3)", fav = true)
+            topic = Topic(title = "Title 4 (#Tag1 #Tag2 #Tag3, fav)", fav = true)
             rowId = dao.insert(topic)
             tagRelation.apply {
                 insert(TopicTagRelation(topic_id = rowId, tag_id = 1))

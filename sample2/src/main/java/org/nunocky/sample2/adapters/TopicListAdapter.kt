@@ -1,4 +1,4 @@
-package org.nunocky.sample2
+package org.nunocky.sample2.adapters
 
 import android.view.LayoutInflater
 import android.view.View
