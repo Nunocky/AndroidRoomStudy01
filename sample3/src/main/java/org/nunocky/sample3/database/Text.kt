@@ -8,9 +8,9 @@ import androidx.room.PrimaryKey
     tableName = "texts",
     foreignKeys = [ForeignKey(
         entity = Topic::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("topic_id"),
-        onDelete = ForeignKey.CASCADE
+        parentColumns = arrayOf("id"),      // Topicの idを
+        childColumns = arrayOf("topic_id"), // Textの topic_idと関連付ける
+        onDelete = ForeignKey.CASCADE       // Topicを削除したとき、関連付けられた Textも削除する
     )]
 )
 data class Text(
