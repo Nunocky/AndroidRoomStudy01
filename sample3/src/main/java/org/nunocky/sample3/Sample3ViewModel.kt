@@ -26,8 +26,8 @@ class Sample3ViewModel(private val repository: TitleTopicRepository) : ViewModel
     var topic = MutableLiveData<Topic>()
 
     // 選択中の Topicに関連した Textのリスト
-    var relatedTexts = Transformations.switchMap(topic) {
-        repository.findTextsForTopic(it.id)
+    var topicAndTexts = Transformations.switchMap(topic) {
+        repository.findTopicWithTextsWithId(it.id)
     }
 
     fun addNewItem(topic: Topic, text1: Text, text2: Text) = viewModelScope.launch(Dispatchers.IO) {

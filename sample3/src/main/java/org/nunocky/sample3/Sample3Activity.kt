@@ -1,10 +1,11 @@
 package org.nunocky.sample3
 
 import android.os.Bundle
-import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.nunocky.sample3.adapter.TextListAdapter
 import org.nunocky.sample3.adapter.TopicListAdapter
 import org.nunocky.sample3.database.Text
@@ -33,7 +34,7 @@ class Sample3Activity : AppCompatActivity() {
 
         binding.lvTopics.adapter = topicAdapter
         binding.lvAllTexts.adapter = allTextListAdapter
-        binding.lvRelatedTexts.adapter = relatedTextListAdapter
+        //binding.lvRelatedTexts.adapter = relatedTextListAdapter
 
         binding.lvTopics.setOnItemClickListener { _, _, position, _ ->
             val topic = topicAdapter.getItem(position) as Topic
@@ -61,7 +62,17 @@ class Sample3Activity : AppCompatActivity() {
 
     private fun deleteSelectedItem() {
         viewModel.topic.value?.let {
-            viewModel.deleteItem(it)
+            lifecycleScope.launch {
+                var position = binding.lvTopics.selectedItemPosition
+
+                viewModel.deleteItem(it).join()
+
+                val count = binding.lvTopics.adapter.count
+                position = position.coerceAtMost(count)
+                if (count != 0) {
+                    binding.lvTopics.setSelection(position)
+                }
+            }
         }
     }
 }

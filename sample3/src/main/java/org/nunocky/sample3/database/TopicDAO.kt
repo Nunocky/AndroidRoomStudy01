@@ -16,4 +16,8 @@ interface TopicDAO {
 
     @Query("select * from topics")
     fun findAll(): LiveData<List<Topic>>
+
+    @Query("select * from topics where id=:id")
+    fun findTopicWithTextsWithId(id: Long): LiveData<TopicAndTexts>
 }
+

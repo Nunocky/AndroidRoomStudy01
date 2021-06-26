@@ -23,7 +23,6 @@ class TitleTopicRepository(private val database: AppDatabase) {
 
     fun findTextsForTopic(topicId: Long) = database.getTextDAO().findAllRelated(topicId)
 
-//    fun deleteText(text: Text) {
-//        database.getTextDAO().delete(text)
-//    }
+    fun findTopicWithTextsWithId(topicId: Long) =
+        database.getTopicDAO().findTopicWithTextsWithId(topicId)
 }
