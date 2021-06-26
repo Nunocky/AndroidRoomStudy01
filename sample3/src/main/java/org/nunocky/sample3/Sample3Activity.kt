@@ -63,17 +63,8 @@ class Sample3Activity : AppCompatActivity() {
     private fun deleteSelectedItem() {
         viewModel.topic.value?.let {
             lifecycleScope.launch {
-                val count = binding.lvTopics.adapter.count - 1
-
                 viewModel.deleteItem(it).join()
-
-                val position = (binding.lvTopics.checkedItemPosition - 1).coerceAtMost(count)
-
-                binding.lvTopics.setItemChecked(position, true)
-
-                if (0 <= position) {
-                    viewModel.topic.value = binding.lvTopics.adapter.getItem(position) as Topic
-                }
+                // TODO リストビューの操作。削除後に別のアイテムを選択、リストビューにも反映させる
             }
         }
     }
