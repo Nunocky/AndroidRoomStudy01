@@ -28,15 +28,18 @@ class DataBindingAdapter {
         @JvmStatic
         @BindingAdapter("topicAndTexts")
         fun setTextList(textView: TextView, entity: TopicAndTexts?) {
-            entity?.let {
-                val sb = StringBuffer()
-                sb.appendLine("Topic : ${it.topic.title}")
-                it.texts.forEach { text ->
-                    sb.appendLine("  Text : ${text.text}")
-                }
+            textView.text =
+                if (entity != null) {
+                    val sb = StringBuffer()
+                    sb.appendLine("Topic : ${entity.topic.title}")
+                    entity.texts.forEach { text ->
+                        sb.appendLine("  Text : ${text.text}")
+                    }
 
-                textView.text = sb.toString()
-            }
+                    sb.toString()
+                } else {
+                    ""
+                }
         }
     }
 }

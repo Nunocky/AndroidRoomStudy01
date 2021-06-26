@@ -63,14 +63,16 @@ class Sample3Activity : AppCompatActivity() {
     private fun deleteSelectedItem() {
         viewModel.topic.value?.let {
             lifecycleScope.launch {
-                var position = binding.lvTopics.selectedItemPosition
+                val count = binding.lvTopics.adapter.count - 1
 
                 viewModel.deleteItem(it).join()
 
-                val count = binding.lvTopics.adapter.count
-                position = position.coerceAtMost(count)
-                if (count != 0) {
-                    binding.lvTopics.setSelection(position)
+                val position = (binding.lvTopics.checkedItemPosition - 1).coerceAtMost(count)
+
+                binding.lvTopics.setItemChecked(position, true)
+
+                if (0 <= position) {
+                    viewModel.topic.value = binding.lvTopics.adapter.getItem(position) as Topic
                 }
             }
         }
