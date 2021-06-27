@@ -30,11 +30,9 @@ class Sample3Activity : AppCompatActivity() {
 
         val topicAdapter = TopicListAdapter(emptyList())
         val allTextListAdapter = TextListAdapter(emptyList())
-        val relatedTextListAdapter = TextListAdapter(emptyList())
 
         binding.lvTopics.adapter = topicAdapter
         binding.lvAllTexts.adapter = allTextListAdapter
-        //binding.lvRelatedTexts.adapter = relatedTextListAdapter
 
         binding.lvTopics.setOnItemClickListener { _, _, position, _ ->
             val topic = topicAdapter.getItem(position) as Topic
